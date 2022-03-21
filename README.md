@@ -1,6 +1,6 @@
 # Py16
 
-An assembler and emulator for a fake machine used in my python course.
+An assembler and emulator for a fake machine used in my python course. You can [try it online](https://joyal-mathew.github.io/py16/).
 
 ## Specifications
 
