@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="www/style.css">
+    <title>Py16</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <td class="label">Assembly Code</td>
+        <td><textarea id="program">OUT 0</textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Input (space seperated numbers)</td>
+        <td><textarea id="input"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Output</td>
+        <td><textarea id="output" readonly="true"></textarea></td>
+      </tr>
+      <tr>
+        <td class="label">Messages</td>
+        <td><textarea id="messages" readonly="true"></textarea></td>
+      </tr>
+      <tr>
+        <td><button id="assemble">Assemble</button></td>
+        <td><button id="run">Run</button></td>
+      </tr>
+    </table>
+    <script src="www/script.js"></script>
+  </body>
+</html>
