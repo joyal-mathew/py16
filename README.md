@@ -32,7 +32,7 @@ An assembler and emulator for a fake machine used in my python course. You can [
 | `1101` | `OUT         X` | Output value at `X`                           |
 | `1110` | `HALT         ` | Halt execution                                |
 
-_`COMPARE` is unsigned_
+_`COMPARE` is signed_
 
 ## Assembly Notes
 

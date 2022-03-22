@@ -106,11 +106,12 @@ fn decrement(self: *Self) void {
 }
 
 fn compare(self: *Self) void {
-    const x = self.ram[self.oprand];
+    const x: i16 = @bitCast(i16, self.ram[self.oprand]);
+    const r: i16 = @bitCast(i16, self.r);
 
-    self.flags.gt = x > self.r;
-    self.flags.eq = x == self.r;
-    self.flags.lt = x < self.r;
+    self.flags.gt = x > r;
+    self.flags.eq = x == r;
+    self.flags.lt = x < r;
 }
 
 fn jump(self: *Self) void {
