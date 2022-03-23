@@ -273,7 +273,7 @@ pub fn assemble(program: []const u8) PasmError!PasmOutput {
     pasm.labels.deinit();
     pasm.tokens.deinit();
 
-    return PasmOutput {
+    return PasmOutput{
         .code = pasm.code,
         .addr = pasm.org,
     };

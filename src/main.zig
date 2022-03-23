@@ -46,14 +46,13 @@ fn genError(comptime string: anytype) void {
 
 export fn assemble(program: [*]u8, len: usize, outCode: [*]u16) u32 {
     const pasmOutWithErr = pasm.assemble(program[0..len]);
-    const zero: u32 = 0;
 
     if (pasmOutWithErr) |pasmOut| {
         defer pasmOut.code.deinit();
 
         if (pasmOut.code.items.len > 0x1000) {
             genError("Generated code too long");
-            return ~zero;
+            return 0xFFFF;
         }
 
         for (pasmOut.code.items) |w, i| {
@@ -61,17 +60,14 @@ export fn assemble(program: [*]u8, len: usize, outCode: [*]u16) u32 {
         }
 
         return (@as(u32, @truncate(u16, pasmOut.code.items.len)) << 16) | @as(u32, pasmOut.addr);
-    }
-    else |e| {
+    } else |e| {
         var errMsg = std.fmt.allocPrint(std.testing.allocator, "{}", .{e});
         if (errMsg) |em| {
             err(@ptrCast([*]u8, em), em.len);
-        }
-        else |_| {
+        } else |_| {
             genError("There was an error but insufficient memory to report it");
-            return ~zero;
         }
 
-        return ~zero;
+        return 0xFFFF;
     }
 }

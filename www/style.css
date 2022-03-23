@@ -1,3 +1,15 @@
 .label {
     text-align: right;
 }
+
+textarea {
+    transition: 128ms ease;
+}
+
+textarea[highlight] {
+    background-color: #CCCC00;
+}
+
+textarea[normal] {
+    background-color: #FFF;
+}

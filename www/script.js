@@ -20,12 +20,26 @@
 
     let result;
 
+    function highlight(element) {
+        element.removeAttribute("normal");
+        element.setAttribute("highlight", "");
+        setTimeout(() => {
+            element.setAttribute("normal", "");
+            element.removeAttribute("highlight");
+        }, 256);
+    }
+
+    function sendMsg(msg) {
+        highlight(msgArea);
+        msgArea.value = msg;
+    }
+
     WebAssembly.instantiateStreaming(fetch("www/main.wasm"), {
         env: {
             memory: new WebAssembly.Memory({ initial: 1 }),
             input: () => (+inputs.shift() || 0) & 0xFFFF,
             output: x => outputArea.value += x + "\n",
-            err: (ptr, len) => msgArea.value = decoder.decode(new Uint8Array(result.instance.exports.memory.buffer).subarray(ptr, ptr + len)),
+            err: (ptr, len) => sendMsg(decoder.decode(new Uint8Array(result.instance.exports.memory.buffer).subarray(ptr, ptr + len))),
         }
     }).then(res => {
         result = res;
@@ -38,7 +52,7 @@
             try {
                 const out = res.instance.exports.assemble(1, program.length, 1 + program.length);
 
-                if (out === 0xFFFFFFFF) {
+                if (out === 0xFFFF) {
                     return;
                 }
 
@@ -46,11 +60,12 @@
                 len = out >> 16;
                 org = out & 0xFFFF;
 
-                msgArea.value = "Assembled";
+                sendMsg("Assembled");
+
                 inputs.splice(0, inputs.length, ...Uint16Array.from(inputArea.value.split(/\s+/)));
             }
             catch (e) {
-                msgArea.value = "[ERROR]: " + e;
+                sendMsg("[ERROR]: " + e);
             }
         };
 
@@ -58,11 +73,13 @@
             outputArea.value = "";
 
             if (org === null || len === null || ptr === null) {
-                msgArea.value = "[ERROR]: You must assemble something first";
+                sendMsg("[ERROR]: You must assemble something first");
             }
             else {
-                res.instance.exports.run(ptr, len, origin);
+                res.instance.exports.run(ptr, len, org);
             }
+
+            highlight(outputArea);
         };
     });
 })();
