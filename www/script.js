@@ -61,8 +61,6 @@
                 org = out & 0xFFFF;
 
                 sendMsg("Assembled");
-
-                inputs.splice(0, inputs.length, ...Uint16Array.from(inputArea.value.split(/\s+/)));
             }
             catch (e) {
                 sendMsg("[ERROR]: " + e);
@@ -71,6 +69,7 @@
 
         runButton.onclick = () => {
             outputArea.value = "";
+            inputs.splice(0, inputs.length, ...Uint16Array.from(inputArea.value.split(/\s+/)));
 
             if (org === null || len === null || ptr === null) {
                 sendMsg("[ERROR]: You must assemble something first");
